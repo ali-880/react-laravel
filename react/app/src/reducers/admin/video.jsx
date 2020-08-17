@@ -3,6 +3,7 @@ export const Video=(state=[],action)=>{
     {
         case "HandleShowVideo":return [...action.payload];
         case "handleVideoCreate":return [...action.payload];
+        case "setvalueVideo":return [...action.payload];
         default:return state;
     }
 }

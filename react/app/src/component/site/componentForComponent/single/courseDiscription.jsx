@@ -12,7 +12,6 @@ const CourseDescription = (props) => {
     const [getVideo,setVideo]=useState({video:""});
     const course = useSelector(state => state.course);
     const videos = useSelector(state => state.video);
-    console.log(getVideo.video);
     return (
         <div>
             <section className="term-description">

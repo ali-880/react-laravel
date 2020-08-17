@@ -14,30 +14,41 @@ export const getAllCourse = () => {
 export const handeleCreateCourse = (validator,event, teacher, title, description, price, image,name) => {
     return async (dispatch, getstate) => {
         event.preventDefault();
-        let a = [...getstate().courses];
-        let fd = new FormData();
-        validator.current.showMessages();
-        fd.append('imageUrl', image);
-        fd.append("name",name);
-        fd.append("price", price);
-        fd.append("description", description);
-        fd.append("title", title);
-        fd.append("teacher", teacher);
-        await axios.post("http://127.0.0.1:8000/api/courses", fd, {
-            headers: {
-                'content-type': 'application/json',
-            }
-        }).then((r)=>{
-            const b = r.data.data;
-            toast.success(r.data.message, {
-                position: "bottom-right"
-            })
-            a = b;
-         }).catch((v)=>{
+        if(validator.current.allValid()){
+            let a = [...getstate().courses];
+            let fd = new FormData();
             validator.current.showMessages();
-            console.log(v);
-        })
-        await dispatch(IsopenModal());
+            fd.append('imageUrl', image);
+            fd.append("name",name);
+            fd.append("price", price);
+            fd.append("description", description);
+            fd.append("title", title);
+            fd.append("teacher", teacher);
+            try{
+                let r=await axios.post("http://127.0.0.1:8000/api/courses", fd, {
+                    headers: {
+                        'content-type': 'application/json',
+                    }
+                })
+                toast.success(r.data.message, {
+                    position: "bottom-right"
+                })
+                let x=r.data.data;
+                await dispatch({type:"SetValueCourses",payload:[...x]})
+                await dispatch(IsopenModal()); 
+            }catch(e){
+                if (e.response.status == 422) {
+                    toast.warning("در وارد کردن مقادیر دقت بیشتری کنید",{position:"bottom-right"});
+                    await dispatch(IsopenModal()); 
+                }else if(e.response.status == 500){
+                    toast.error("با عرض پوزش مشکلی پیش امده است",{position:"bottom-right"});
+                    await dispatch(IsopenModal()); 
+                }
+            }
+        }
+        else{
+            validator.current.showMessages();
+        } 
     }
 }
 export const IsopenModal = () => {
@@ -55,8 +66,9 @@ export const handleDeleteCourse = (id) => {
         toast.success(a.data.message, {
             position: "bottom-right",
         });
-        await dispatch({ type: "DELETE_COURSE", payload: [...getstate().courses, a.data.data] });
-        await dispatch(handleShowPersons())
+        let courses=[...getstate().courses];
+        let y=courses.filter(e=>e.id!==id);
+        await dispatch({ type: "SetValueCourses", payload:[...y] });
     }
 }
 export const handleUpdateCourse = (event, id, teacher, title, description, price, image,name) => {
@@ -75,7 +87,7 @@ export const handleUpdateCourse = (event, id, teacher, title, description, price
         })
         await dispatch(IsopenModalForChange())
         toast.success(a.data.message,{position:"bottom-right"});
-        await dispatch({type:"UPDATE_COURSE",payload:a.data.data});
+        await dispatch({type:"UPDATE_COURSE",payload:{...a.data.data}});
 
     }
 }

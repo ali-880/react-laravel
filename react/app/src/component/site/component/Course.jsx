@@ -6,7 +6,6 @@ import Modal from 'react-modal';
 import SimpleReactValidator from 'simple-react-validator';
 import {  ToastContainer } from 'react-toastify';
 import { Link } from 'react-router-dom';
-
 const Course = () => {
     const validator=useRef(new SimpleReactValidator(
         {
@@ -18,6 +17,8 @@ const Course = () => {
             element:ma=>(<div style={{color:"red"}}>{ma}</div>)
         }
     ))
+    const [refresh, setrefresh] =useState({ refresh: false })
+    
     const[valid,setvalid]=useState({valid:false});
     const isopenchange=useSelector(state=>state.isopenchange);
     const dispatch = useDispatch();
@@ -150,7 +151,9 @@ const Course = () => {
                                 style={customStyles}
                                 contentLabel="ویرایش"
                             >
-                                <form onSubmit={(event) => { (dispatch(handleUpdateCourse(event,course.id, getteacher.teacher, gettitle.title, getdescription.description, getprice.price, getimage.image,getname.name))) }}>
+                                <form onSubmit={(event) => {
+                                     (dispatch(handleUpdateCourse(event,course.id, getteacher.teacher, gettitle.title, getdescription.description, getprice.price, getimage.image,getname.name)));
+                                     }} onClick={()=>{setrefresh({refresh:!refresh.refresh}) ;console.log(refresh.refresh)}}>
                                     <div className="form-group">
                                         <label for="title">عنوان</label>
                                         <input  type="text" className="form-control" id="title" placeholder="عنوان" onChange={(event) => settitle({ title: (event.target.value) })} />

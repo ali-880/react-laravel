@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { HandleShowVideo, handleVideoCreate } from './../../../actions/site/video/index';
+import { HandleShowVideo, handleVideoCreate, handleDeleteVideo } from './../../../actions/site/video/index';
 import { withRouter } from 'react-router';
 import { handleCreate } from '../../../actions/personManager';
 import { ToastContainer } from 'react-toastify';
@@ -27,10 +27,9 @@ const VideoUpload = (props) => {
                     <label for="videoUrl">ویدیو</label>
                     <input style={{fontSize:"15px"}} type="file" className="form-control" id="videoUrl" placeholder="ویدیوی مورد نظر را وارد کنید" onChange={(event)=>{setvideo({video:event.target.files[0]})}}/>
                 </div>
-                {console.log(gettitle.title)}
                 <button style={{fontSize:"15px"}} type="submit" className="btn btn-primary">ارسال</button>
             </form>):null}
-            <button className="btn btn-success btn-lg btn-block my-4" style={{ fontSize: "18px" }} onClick={()=>{setshow({show:!getshow.show})}}>{getshow.show?"بستن":"نمایش ویدیو"}</button>
+            <button className="btn btn-success btn-lg btn-block my-4" style={{ fontSize: "18px" }} onClick={()=>{setshow({show:!getshow.show})}}>{getshow.show?"بستن":"اضافه کردن ویدیو"}</button>
             <table style={{fontSize:"15px"}} className="table table-hover table-active table-bordered my-2">
                 <thead>
                     <th>ردیف</th>
@@ -38,7 +37,7 @@ const VideoUpload = (props) => {
                     <th>ویدیو</th>
                     <th>نام دوره</th>
                     <th>حذف ویدیو</th>
-                    <th>ویریش ویدیو</th>
+                    <th>ویرایش ویدیو</th>
                 </thead>
                 <tbody>
                     
@@ -48,8 +47,8 @@ const VideoUpload = (props) => {
                             <td  >{video.title}</td>
                             <td ><a style={{fontSize:"15px"}} href={`http://127.0.0.1:8000/storage/video/${video.videoUrl}`} className="btn btn-success">نمایش ویدیو</a></td>
                             <td >{course.name}</td>
-                            <td ><button style={{fontSize:"15px"}} className="btn btn-success">حذف</button></td>
-                            <td ><button style={{fontSize:"15px"}} className="btn btn-success">ویرایش </button></td>
+                            <td ><button style={{fontSize:"15px"}} className="btn btn-success" onClick={()=>dispatch(handleDeleteVideo(video.id))}>حذف</button></td>
+                            <td ><button style={{fontSize:"15px"}} className="btn btn-success" onClick={()=>dispatch()} >ویرایش </button></td>
                         </tr>
                     ))}
                 </tbody>

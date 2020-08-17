@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Storage;
 
 class courseControllerAPI extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->middleware(['isAdmin','auth:api'])->except(['index','show']);
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +24,7 @@ class courseControllerAPI extends Controller
      */
     public function index()
     {
-        $course = course::all();
+        $course = course::orderBy('id','DESC')->get();
         return \response()->json($course,200);
     }
     /**
@@ -39,7 +43,7 @@ class courseControllerAPI extends Controller
         course::create(array_merge($request->except(['imageUrl',]),["imageUrl"=>$file_name]));
         return [
             "message"=>trans('api.course.create'),
-            "data"=>course::get(),
+            "data"=>course::orderBy('id','DESC')->get(),
         ];
     }
     /**
@@ -51,7 +55,7 @@ class courseControllerAPI extends Controller
     public function show($slug)
     {
         $course=course::where('slug','=',$slug)->first();
-        $videos=$course->videos()->get();
+        $videos=$course->videos()->orderBy('id','DESC')->get();
         $a=["course"=>$course,"video"=>$videos];
         return \response()->json($a,200);
     }

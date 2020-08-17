@@ -1,23 +1,24 @@
 import React from 'react';
-const Comment = () => {
+import { useSelector, useDispatch } from 'react-redux';
+import lodash from 'lodash';
+import { Link, withRouter } from 'react-router-dom';
+import { useEffect } from 'react';
+import { handleGetAllCommentCourse } from '../../../actions/site/comment';
+const Comment = (props) => {
+    const dispatch = useDispatch();
+    const course = useSelector(state => state.course);
+    const comment = useSelector(state => state.comment);
+    const user = useSelector(state => state.user);
+    useEffect(() => {
+        dispatch(handleGetAllCommentCourse(props.match.params.id))
+    }, [])
     return (
         <div>
             <section className="user-comments">
                 <header><h3> نظرات کاربران </h3></header>
                 <div className="inner">
-                    <form>
+                    {!lodash(user).isEmpty() ? (<form>
                         <div className="row">
-                            <div className="col-md-4 col-sm-12 col-xs-12">
-                                <div className="form-group">
-                                    <input type="text" className="form-control" placeholder="نام و نام خانوادگی" />
-                                </div>
-                                <div className="form-group">
-                                    <input type="text" className="form-control" placeholder="ایمیل" />
-                                </div>
-                                <div className="form-group">
-                                    <input type="text" className="form-control" placeholder="شماره تماس" />
-                                </div>
-                            </div>
                             <div className="col-md-8 col-sm-12 col-xs-12">
                                 <div className="form-group">
                                     <textarea className="form-control" placeholder="متن نظر"></textarea>
@@ -37,8 +38,26 @@ const Comment = () => {
                                 <button type="submit" className="btn btn-success"> ثبت دیدگاه </button>
                             </div>
                         </div>
-                    </form>
-
+                    </form>) : (
+                            <div className="row">
+                                <div className="alert alert-success" style={{ width: "100%", height: "100%" }}>
+                                    <p className="my-2 text-bold" style={{ fontSize: "16px", color: "black" }}>برای قرارر دادن کامنت ابتدا باید به سایت وارد شوید</p><br />
+                                    <Link to="/login" className="btn btn-warning mt-3 " style={{ width: "20%", height: "20%", fontSize: "13px", color: "black" }}>ورود به سایت</Link>
+                                </div>
+                            </div>
+                        )}
+                    {comment.map(com => (
+                        <div className="comment-row" key={com.id}>
+                            <img src="/images/download.jpg" style={{width:"50px",height:"50px "}}/>
+                            <div className="left-col">
+                                <h3> {com.user.name}</h3>
+                                <span>12/03/1397</span>
+                                <p>
+                                    {com.content}
+                                </p>
+                            </div><hr/>
+                        </div>
+                    ))}
                     <div className="comment-list">
                         <nav aria-label="Page navigation">
                             <ul className="pagination justify-content-center">
@@ -65,4 +84,4 @@ const Comment = () => {
     );
 }
 
-export default Comment;
+export default withRouter(Comment);

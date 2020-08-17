@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { HandleShowVideo } from '../../../actions/site/video';
 import CourseDescription from './../componentForComponent/single/courseDiscription';
 import Comment from './../componentForComponent/Comment';
@@ -10,6 +10,7 @@ const Single = (props) => {
     useEffect(()=>{
         dispatch(HandleShowVideo(props.match.params.id))
     },[]);
+    const course=useSelector(state=>state.course);
     return (
         <div>           
             <div className="container">
@@ -18,7 +19,7 @@ const Single = (props) => {
                     <div className="row">
                         <div className="col-md-8 col-sm-12 col-xs-12 pull-left">
                            <CourseDescription/>
-                            <Comment/>
+                            <Comment id={course.id}/>
                         </div>
                        <InfoCourse/>
                     </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 const Dashbord = () => {
     return (
         <div>
@@ -10,7 +10,7 @@ const Dashbord = () => {
                     <div style={{ direction: "rtl" }}>
                         <div className="user-panel mt-3 pb-3 mb-3 d-flex">
                             <div className="image">
-                                <img src="images/sess_0_48068_0_0.jpg" className="img-circle elevation-2" alt="User Image" />
+                                <img src="/images/sess_0_48068_0_0.jpg" className="img-circle elevation-2" alt="User Image" />
                             </div>
                             <div className="info">
                                 <a href="#" className="d-block">سید علیرضا حسینی</a>
@@ -92,6 +92,29 @@ const Dashbord = () => {
                                                 <i className="fa fa-circle-o nav-icon"></i>
                                                 <p>صفحه شروع</p>
                                             </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li className="nav-item has-treeview">
+                                    <a href="#" className="nav-link">
+                                        <i className="nav-icon fa fa-commenting"></i>
+                                        <p style={{ marginLeft: "120px" }}>
+                                            کامنت ها
+                                           <i className="fa fa-angle-left right"></i>
+                                        </p>
+                                    </a>
+                                    <ul className="nav nav-treeview">
+                                        <li className="nav-item">
+                                            <NavLink to="/admin/comment/unpublish" activeStyle={{background:"white"}}  className="nav-link">
+                                                <i className="fa fa-circle-o nav-icon"></i>
+                                                <p>جدول کامنت های منتشر نشده</p>
+                                            </NavLink>
+                                        </li>
+                                        <li className="nav-item">
+                                            <NavLink to="/admin/comment/publish" exact className="nav-link">
+                                                <i className="fa fa-circle-o nav-icon"></i>
+                                                <p>جدول کامنت های منتشر شده</p>
+                                            </NavLink>
                                         </li>
                                     </ul>
                                 </li>

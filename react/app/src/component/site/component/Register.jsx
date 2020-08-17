@@ -6,7 +6,8 @@ import { RegisterApi } from '../../../actions/site/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import SimpleReactValidator from 'simple-react-validator';
-const Register = () => {
+import { withRouter } from 'react-router';
+const Register = (props) => {
     const validator=useRef(new SimpleReactValidator(
         {
             messages:{
@@ -33,7 +34,7 @@ const Register = () => {
                 <div className="container-content">
                     <header><h2> عضویت در سایت </h2></header>
                     <div className="form-layer">
-                        <form onSubmit={(event)=>dispatch(RegisterApi(validator.current,event,email.email,password.password,name.name,captcha.captcha,concaptcha.concaptcha,password_confirm.password_confirm))}>
+                        <form onSubmit={(event)=>dispatch(RegisterApi(props.history.replace,validator.current,event,email.email,password.password,name.name,captcha.captcha,concaptcha.concaptcha,password_confirm.password_confirm))}>
                             <div className="input-group">
                                 <span className="input-group-addon" id="username"><i><FaRocketchat/></i></span>
                                 <input onChange={(event)=>{setname({name:event.target.value})}} name="username" type="text" style={{fontSize:"13px"}} className="form-control" placeholder="نام و نام خانوادگی" aria-describedby="username" />
@@ -78,4 +79,4 @@ const Register = () => {
         </div>
     );
 }
-export default Register;
+export default withRouter( Register);

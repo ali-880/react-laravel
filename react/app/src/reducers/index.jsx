@@ -10,6 +10,8 @@ import { Video } from './admin/video';
 import { message } from './user/massage';
 import { messageConfirmed } from './user/messageConfirm';
 import { User } from './user/user';
+import { Comment } from './comment/Comment';
+import { Comments } from './comment/Comments';
 export const CombineReducer=combineReducers({
     persons:Persons,
     person:Person,
@@ -22,4 +24,6 @@ export const CombineReducer=combineReducers({
     messageCaptcha:message,
     user:User,
     messageconfirmed:messageConfirmed,
+    comment:Comment,
+    comments:Comments,
 });

@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Storage;
 
 class videoControllerAPI extends Controller
 {
+    //public function __construct()
+    //{
+      //  $this->middleware(['isAdmin',"auth:api"]);
+    //}
     public function upload($slug,videoRequest $request)
     {
         $course=course::where('slug','=',$slug)->first();
@@ -19,8 +23,9 @@ class videoControllerAPI extends Controller
         $file_name="course_video".time().'.'.$file->getClientOriginalExtension();
         $file->storeAs(
             'public/video', $file_name);
-        $course->videos()->create(array_merge($request->except(['videoUrl']),["videoUrl"=>$file_name]));
+        $video=$course->videos()->create(array_merge($request->except(['videoUrl']),["videoUrl"=>$file_name]));
         return [
+            'video'=>$video,
             'message'=>trans('api.video.upload'),
         ];
     }

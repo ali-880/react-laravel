@@ -3,8 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Cviebrock\EloquentSluggable\Sluggable;
 use App\tag;
+use Cviebrock\EloquentSluggable\Sluggable;
+
 class course extends Model
 {
     use Sluggable;
@@ -13,7 +14,7 @@ class course extends Model
     {
         return [
             'slug' => [
-                'source' => 'title'
+                'source' => 'name'
             ]
         ];
     }
@@ -24,5 +25,9 @@ class course extends Model
     public function tags()
     {
         return $this->blongsToMany(\App\Tag::class);
+    }
+    public function comments()
+    {
+        return $this->hasMany(comment::class);
     }
 }

@@ -1,12 +1,14 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 const Info = () => {
+    const courses=useSelector(state=>state.courses);
     return (
         <div>
             <div className="row">
-                <div className="col-lg-3 col-6">
+                <div className="col-lg-3 col-6">    
                     <div className="small-box bg-info">
                         <div className="inner">
-                            <h3>150</h3>
+                            <h3>{courses.length}</h3>
 
                             <p>تعداد کل دورره ها</p>
                         </div>
